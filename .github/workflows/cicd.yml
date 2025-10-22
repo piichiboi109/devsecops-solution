@@ -1,1 +1,45 @@
 
+name: DevSecOps CI/CD Pipeline to Azure
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_scan:
+    name: Scan & Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./app/package.json
+
+      # - name: Install dependencies
+      #   run: npm install
+      #   working-directory: ./app
+
+      # - name: Run SonarQube Scanner
+      #   run: npm run sonar
+      #   working-directory: ./app
+      #   env:
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      #     SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+
+      # - name: Quality Gate Check
+      #   uses: sonarsource/sonarcloud-github-action@master
+      #   with:
+      #     args: >
+      #       -Dsonar.projectKey=your_project_key
+      #       -Dsonar.organization=your_organization
+      #       -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+      #       -Dsonar.login=${{ secrets.SONAR_LOGIN }} 
